@@ -1,0 +1,27 @@
+name: FortressPi Metadata Cloud Backup
+
+on:
+  push:
+    tags:
+      - 'v22.*'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install rclone
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rclone
+
+      - name: Setup Rclone Config
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "${{ secrets.RCLONE_CONFIG }}" > ~/.config/rclone/rclone.conf
+
+      - name: Upload to Google Drive
+        run: |
+          rclone copy FortressPi_Meta_Logic_Backup.zip gdrive:FortressPiBackup --progress
