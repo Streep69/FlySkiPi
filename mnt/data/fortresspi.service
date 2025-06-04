@@ -1,0 +1,14 @@
+[Unit]
+Description=FortressPi Web UI Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /mnt/fortressshare/fortresspi/app.py
+WorkingDirectory=/mnt/fortressshare/fortresspi/
+Restart=always
+StandardOutput=append:/mnt/fortressshare/fortresspi/fortresspi.log
+StandardError=append:/mnt/fortressshare/fortresspi/fortresspi.log
+User=pi
+
+[Install]
+WantedBy=multi-user.target
